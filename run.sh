@@ -58,37 +58,16 @@ curl -i -X PUT \
   "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/v1/Storage-$WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN/$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME/$WERCKER_ORACLE_ACCS_DEPLOY_FILE" \
       -T "$ARCHIVE_LOCAL"
 
-# See if application exists
-let httpCode=`curl -i -X GET  \
-  -u ${USER_ID}:${USER_PASSWORD} \
-  -H "X-ID-TENANT-NAME:${ID_DOMAIN}" \
+# Create application and deploy
+echo '[info] Creating application...'
+curl -i -X POST  \
+  -u "${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" \
+  -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
   -H "Content-Type: multipart/form-data" \
-  -sL -w "%{http_code}" \
-  https://${APAAS_HOST}/paas/service/apaas/api/v1.1/apps/${ID_DOMAIN}/${APP_NAME} \
-  -o /dev/null`
+  -F "name=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
+  -F "runtime=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE}" \
+  -F "subscription=Hourly" \
+  -F "archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE}" \
+  "https://${APAAS_HOST}/paas/service/apaas/api/v1.1/apps/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}"
 
-# If application exists...
-if [ $httpCode == 200 ]
-then
-  # Update application
-  echo '\n[info] Updating application...\n'
-  curl -i -X PUT  \
-    -u ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD} \
-    -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
-    -H "Content-Type: multipart/form-data" \
-    -F archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE} \
-    https://${APAAS_HOST}/paas/service/apaas/api/v1.1/apps/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}/${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}
-else
-  # Create application and deploy
-  echo '\n[info] Creating application...\n'
-  curl -i -X POST  \
-    -u ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD} \
-    -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
-    -H "Content-Type: multipart/form-data" \
-    -F "name=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
-    -F "runtime=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE}" \
-    -F "subscription=Hourly" \
-    -F archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE} \
-    https://${APAAS_HOST}/paas/service/apaas/api/v1.1/apps/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}
-fi
-echo '\n[info] Deployment complete\n'
+echo '[info] Deployment complete'
