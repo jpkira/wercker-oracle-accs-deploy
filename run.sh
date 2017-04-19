@@ -46,7 +46,7 @@ echo 'TARGET:'
 ls -la target
 
 echo 'WERCKER_OUTPUT_DIR:'
-ls -la $WERCKER_OUTPUT_DIR
+ls -la "$WERCKER_OUTPUT_DIR"
 
 export ARCHIVE_LOCAL=target/$WERCKER_ORACLE_ACCS_DEPLOY_FILE
 export APAAS_HOST=apaas.${WERCKER_ORACLE_ACCS_DEPLOY_REGION}.oraclecloud.com
