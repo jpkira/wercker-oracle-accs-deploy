@@ -1,5 +1,5 @@
 name: oracle-accs-deploy
-version: 0.0.3
+version: 0.0.4
 description: deploy artifact to Oracle Application Container Cloud Service
 keywords:
   - oracle
