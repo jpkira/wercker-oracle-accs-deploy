@@ -38,6 +38,10 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # peternagy/oracle-accs-deploy
 
+## 1.0.1
+
+- environment variable `WERCKER_ORACLE_ACCS_DEPLOY_REST_URL` typo
+ 
 ## 1.0.0
 
 - Readme.md update

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -n "$WERCKER_ORACLE_ACCS_REST_URL" ]; then
+if [ ! -n "$WERCKER_ORACLE_ACCS_DEPLOY_REST_URL" ]; then
   error 'Please specify  Oracle Application Container Cloud REST url. (e.g.: https://apaas.europe.oraclecloud.com/paas/service/apaas/api/v1.1/apps)'
   error '(Locate Oracle Application Container Cloud in the My Services console, click Details, and look at the REST Endpoint value.)'
   exit 1
@@ -64,7 +64,7 @@ export httpCode=$(curl -i -X GET  \
   -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
   -H "Content-Type: multipart/form-data" \
   -sL -w "%{http_code}" \
-  "${WERCKER_ORACLE_ACCS_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}/${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
+  "${WERCKER_ORACLE_ACCS_DEPLOY_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}/${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
   -o /dev/null)
 
 # If application exists...
@@ -77,7 +77,7 @@ then
     -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
     -H "Content-Type: multipart/form-data" \
     -F "archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE}" \
-    "${WERCKER_ORACLE_ACCS_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}//${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}"
+    "${WERCKER_ORACLE_ACCS_DEPLOY_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}//${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}"
 else
   # Create application and deploy
   echo '[info] Creating application...'
@@ -89,7 +89,7 @@ else
     -F "runtime=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE}" \
     -F "subscription=Hourly" \
     -F "archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE}" \
-    "${WERCKER_ORACLE_ACCS_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}"
+    "${WERCKER_ORACLE_ACCS_DEPLOY_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}"
 fi
 
 echo '[info] Deployment complete'
