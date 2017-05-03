@@ -59,13 +59,13 @@ curl -i -X PUT \
       -T "$ARCHIVE_LOCAL"
 
 # See if application exists
-let httpCode=`curl -i -X GET  \
+export httpCode=$(curl -i -X GET  \
   -u "${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" \
   -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
   -H "Content-Type: multipart/form-data" \
   -sL -w "%{http_code}" \
   ${WERCKER_ORACLE_ACCS_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}/${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME} \
-  -o /dev/null`
+  -o /dev/null)
 
 # If application exists...
 if [ $httpCode == 200 ]
