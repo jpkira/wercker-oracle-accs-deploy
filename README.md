@@ -23,7 +23,7 @@ Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Applica
 	        code: mvn install
 	deploy-accs:
 	  steps:
-	    # Push to public docker repo
+	    # Deploy to Oracle Application Container Cloud
 	    - peternagy/oracle-accs-deploy:
 	        opc_user: $OPC_USERNAME
 	        opc_password: $OPC_PASSWORD
