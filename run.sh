@@ -64,11 +64,11 @@ export httpCode=$(curl -i -X GET  \
   -H "X-ID-TENANT-NAME:${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}" \
   -H "Content-Type: multipart/form-data" \
   -sL -w "%{http_code}" \
-  ${WERCKER_ORACLE_ACCS_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}/${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME} \
+  "${WERCKER_ORACLE_ACCS_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}/${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
   -o /dev/null)
 
 # If application exists...
-if [ $httpCode == 200 ]
+if [ "$httpCode" == 200 ]
 then
   # Update application
   echo '[info] Updating application...'
