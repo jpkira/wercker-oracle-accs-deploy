@@ -50,3 +50,4 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # License
 
+The Universal Permissive License (UPL), Version 1.0
