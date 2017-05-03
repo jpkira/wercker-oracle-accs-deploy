@@ -1,6 +1,8 @@
 # Step wercker-oracle-accs-deploy
 Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Application Container Cloud Service.
 
+[![wercker status](https://app.wercker.com/status/de39af56836fb36588b3528955db9e88/m "wercker status")](https://app.wercker.com/project/bykey/de39af56836fb36588b3528955db9e88)
+
 
 # Options
 
