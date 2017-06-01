@@ -72,7 +72,7 @@ createStorageContainer() {
 
   getStorageTokenAndURLSet
 
-  echo "$STORAGE_URL"
+  echo "[info] STORAGE_URL = $STORAGE_URL"
 
   echo '[info] Creating Storage Container.'
   curl -i -X PUT \
