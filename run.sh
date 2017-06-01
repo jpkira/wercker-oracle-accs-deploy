@@ -66,16 +66,6 @@ getStorageTokenAndURLSet() {
           esac
   done< <(curl -sI -X GET -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0")
 
-  if [ ! -n "$STORAGE_AUTH_TOKEN" ]; then
-    error 'Unable to reterive Storage Auth Token, please check your OPC Username and Password.'
-    exit 1
-  fi
-
-  if [ ! -n "$STORAGE_URL" ]; then
-    error 'Unable to reterive Storage URL, please check your OPC Username and Password.'
-    exit 1
-  fi
-
 }
 
 createStorageContainer() {
