@@ -39,6 +39,10 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # joshholt/oracle-accs-deploy
 
+## 1.0.7
+
+- More debugging with verbose curl for auth.
+
 ## 1.0.6
 
 - echo with [info]

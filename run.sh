@@ -55,6 +55,11 @@ echo "File found '${ARCHIVE_LOCAL}'"
 getStorageTokenAndURLSet() {
   echo '[info] Fetching Storage Auth Token and URL.'
 
+  curl -iv -X GET \
+    -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" \
+    -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" \
+    "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0"
+
   shopt -s extglob
   while IFS=':' read key value; do
           value=${value##+([[:space:]])}; value=${value%%+([[:space:]])}
@@ -71,8 +76,6 @@ getStorageTokenAndURLSet() {
 createStorageContainer() {
 
   getStorageTokenAndURLSet
-
-  echo "[info] STORAGE_URL = $STORAGE_URL"
 
   echo '[info] Creating Storage Container.'
   curl -i -X PUT \
