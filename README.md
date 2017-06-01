@@ -38,6 +38,10 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # joshholt/oracle-accs-deploy
 
+## 1.0.5
+
+- echoing STORAGE URL to debug
+
 ## 1.0.4
 
 - remove export var checks to test for a minute

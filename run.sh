@@ -72,6 +72,8 @@ createStorageContainer() {
 
   getStorageTokenAndURLSet
 
+  echo "$STORAGE_URL"
+
   echo '[info] Creating Storage Container.'
   curl -i -X PUT \
     -H "X-Auth-Token: $STORAGE_AUTH_TOKEN" \

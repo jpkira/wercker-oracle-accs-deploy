@@ -1,5 +1,5 @@
 name: oracle-accs-deploy
-version: 1.0.4
+version: 1.0.5
 description: deploy (Java, NodeJS, PHP, Ruby) application to Oracle Application Container Cloud Service
 keywords:
   - oracle
