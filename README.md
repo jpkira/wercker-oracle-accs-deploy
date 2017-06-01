@@ -1,9 +1,6 @@
 # Step wercker-oracle-accs-deploy
 Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Application Container Cloud Service.
 
-[![wercker status](https://app.wercker.com/status/de39af56836fb36588b3528955db9e88/m "wercker status")](https://app.wercker.com/project/bykey/de39af56836fb36588b3528955db9e88)
-
-
 # Options
 
 - `opc_user` user name for your Oracle Application Container Cloud account.
@@ -39,7 +36,13 @@ Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Applica
 
 This will copy the binary (zip artifact) to the storage container cloud service than deploy to application container cloud service.
 
-# peternagy/oracle-accs-deploy
+# joshholt/oracle-accs-deploy
+
+## 1.0.2
+
+- update to storage auth tokens
+- add subscription_type param for deployment purposes
+- environment variable `WERCKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE` typo
 
 ## 1.0.1
 
