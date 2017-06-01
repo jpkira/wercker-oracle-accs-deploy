@@ -36,7 +36,7 @@ if [ ! -n "$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE" ]; then
   exit 1
 fi
 
-if [ ! -n "$WRECKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE" ]; then
+if [ ! -n "$WERCKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE" ]; then
   error 'Please specify your subscription type (Hourly|Monthly)'
   exit 1
 fi
