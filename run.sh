@@ -45,6 +45,20 @@ fi
 
 echo "File found '${ARCHIVE_LOCAL}'"
 
+# FIRST GET THE AUTH TOKEN
+shopt -s extglob
+while IFS=':' read key value; do
+        value=${value##+([[:space:]])}; value=${value%%+([[:space:]])}
+        case "$key" in
+          X-Auth-Token) AUTH_TOKEN="$value"
+                ;;
+          X-Storage-Token) STORAGE_TOKEN="$value"
+                ;;
+          X-Storage-Url) STORAGE_URL="$value"
+                ;;
+        esac
+done< <(curl -sI -X GET -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0")
+
 # CREATE CONTAINER
 echo '[info] Creating container'
 curl -i -X PUT \
