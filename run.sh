@@ -45,32 +45,61 @@ fi
 
 echo "File found '${ARCHIVE_LOCAL}'"
 
-# FIRST GET THE AUTH TOKEN
-shopt -s extglob
-while IFS=':' read key value; do
-        value=${value##+([[:space:]])}; value=${value%%+([[:space:]])}
-        case "$key" in
-          X-Auth-Token) AUTH_TOKEN="$value"
-                ;;
-          X-Storage-Token) STORAGE_TOKEN="$value"
-                ;;
-          X-Storage-Url) STORAGE_URL="$value"
-                ;;
-        esac
-done< <(curl -sI -X GET -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0")
+# Functions
+getStorageTokenAndURLSet() {
+  echo '[info] Fetching Storage Auth Token and URL.'
+
+  shopt -s extglob
+  while IFS=':' read key value; do
+          value=${value##+([[:space:]])}; value=${value%%+([[:space:]])}
+          case "$key" in
+            X-Auth-Token) STORAGE_AUTH_TOKEN="$value"
+                  ;;
+            X-Storage-Token) STORAGE_TOKEN="$value"
+                  ;;
+            X-Storage-Url) STORAGE_URL="$value"
+                  ;;
+          esac
+  done< <(curl -sI -X GET -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0")
+
+  if [ ! -n "$STORAGE_AUTH_TOKEN" ]; then
+    error 'Unable to reterive Storage Auth Token, please check your OPC Username and Password.'
+    exit 1
+  fi
+
+  if [ ! -n "$STORAGE_URL" ]; then
+    error 'Unable to reterive Storage URL, please check your OPC Username and Password.'
+    exit 1
+  fi
+
+}
+
+createStorageContainer() {
+
+  getStorageTokenAndURLSet
+
+  echo '[info] Creating Storage Container.'
+  curl -i -X PUT \
+    -H "X-Auth-Token: $STORAGE_AUTH_TOKEN" \
+    "$STORAGE_URL/$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME"
+}
+
+uploadACCSArchive() {
+  # We get the token and URL set again in the event that the previously fetch set has expired, this may be overkill?
+  getStorageTokenAndURLSet
+
+  echo '[info] Uploading application to storage'
+  curl -i -X PUT \
+    -H "X-Auth-Token: $STORAGE_AUTH_TOKEN" \
+    -T "$ARCHIVE_LOCAL" \
+    "$STORAGE_URL/$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME/$WERCKER_ORACLE_ACCS_DEPLOY_FILE"
+}
 
 # CREATE CONTAINER
-echo '[info] Creating container'
-curl -i -X PUT \
-    -u "${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" \
-    "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/v1/Storage-$WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN/$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME"
+createStorageContainer
 
 # PUT ARCHIVE IN STORAGE CONTAINER
-echo '[info] Uploading application to storage'
-curl -i -X PUT \
-  -u "${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" \
-  "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/v1/Storage-$WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN/$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME/$WERCKER_ORACLE_ACCS_DEPLOY_FILE" \
-      -T "$ARCHIVE_LOCAL"
+uploadACCSArchive
 
 # See if application exists
 export httpCode=$(curl -i -X GET  \
