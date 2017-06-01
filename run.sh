@@ -61,8 +61,6 @@ getStorageTokenAndURLSet() {
           case "$key" in
             X-Auth-Token) STORAGE_AUTH_TOKEN="$value"
                   ;;
-            X-Storage-Token) STORAGE_TOKEN="$value"
-                  ;;
             X-Storage-Url) STORAGE_URL="$value"
                   ;;
           esac
