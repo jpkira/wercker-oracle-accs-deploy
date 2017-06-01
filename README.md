@@ -10,6 +10,7 @@ Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Applica
 - `application_name` Name of the application.
 - `application_type` Runtime of the application (e.g.: java).
 - `file` Name of the application archive (zip artifact).
+- `subscription_type` The type of ACCS subscription you have (Hourly|Monthly) for deployment purposes.
 
 # Example
 
@@ -23,7 +24,7 @@ Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Applica
 	deploy-accs:
 	  steps:
 	    # Deploy to Oracle Application Container Cloud
-	    - peternagy/oracle-accs-deploy:
+	    - joshholt/oracle-accs-deploy:
 	        opc_user: $OPC_USERNAME
 	        opc_password: $OPC_PASSWORD
 	        rest_url: $REST_URL
