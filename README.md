@@ -39,6 +39,12 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # joshholt/oracle-accs-deploy
 
+## 1.0.8
+
+- Debugging complete.
+- Fixed typo in subscription env var sub.
+- Added unset env var checks after an attempt to fetch storage auth token and url.
+
 ## 1.0.7
 
 - More debugging with verbose curl for auth.

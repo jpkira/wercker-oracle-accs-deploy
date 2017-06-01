@@ -55,11 +55,6 @@ echo "File found '${ARCHIVE_LOCAL}'"
 getStorageTokenAndURLSet() {
   echo '[info] Fetching Storage Auth Token and URL.'
 
-  curl -iv -X GET \
-    -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" \
-    -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" \
-    "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0"
-
   shopt -s extglob
   while IFS=':' read key value; do
           value=${value##+([[:space:]])}; value=${value%%+([[:space:]])}
@@ -71,6 +66,15 @@ getStorageTokenAndURLSet() {
           esac
   done< <(curl -sI -X GET -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0")
 
+  if [ ! -n "$STORAGE_AUTH_TOKEN" ]; then
+    error 'Unable to fetch storage auth token, please check your OPC Username and password.'
+    exit 1
+  fi
+
+  if [ ! -n "$STORAGE_URL" ]; then
+    error 'Unable to fetch storage url, please check your OPC Username and password.'
+    exit 1
+  fi
 }
 
 createStorageContainer() {
@@ -129,7 +133,7 @@ else
     -H "Content-Type: multipart/form-data" \
     -F "name=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
     -F "runtime=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE}" \
-    -F "subscription=$WRECKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE" \
+    -F "subscription=${WRECKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE}" \
     -F "archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE}" \
     "${WERCKER_ORACLE_ACCS_DEPLOY_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}"
 fi
