@@ -39,6 +39,10 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # joshholt/oracle-accs-deploy
 
+## 1.0.9
+
+- Fix typo in WERCKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE env var.
+
 ## 1.0.8
 
 - Debugging complete.
