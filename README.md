@@ -34,6 +34,7 @@ Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Applica
 	        application_name: springboot-accs-demo
 			application_type: java
 	        file: springbootdemo-0.0.1.zip
+	        subscription_type: Hourly
 
 
 This will copy the binary (zip artifact) to the storage container cloud service than deploy to application container cloud service.

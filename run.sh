@@ -36,6 +36,12 @@ if [ ! -n "$WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE" ]; then
   exit 1
 fi
 
+if [ ! -n "$WRECKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE" ]; then
+  error 'Please specify your subscription type (Hourly|Monthly)'
+  exit 1
+fi
+
+
 export ARCHIVE_LOCAL=target/$WERCKER_ORACLE_ACCS_DEPLOY_FILE
 
 if [ ! -e "$ARCHIVE_LOCAL" ]; then
@@ -130,7 +136,7 @@ else
     -H "Content-Type: multipart/form-data" \
     -F "name=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}" \
     -F "runtime=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_TYPE}" \
-    -F "subscription=Hourly" \
+    -F "subscription=$WRECKER_ORACLE_ACCS_DEPLOY_SUBSCRIPTION_TYPE" \
     -F "archiveURL=${WERCKER_ORACLE_ACCS_DEPLOY_APPLICATION_NAME}/${WERCKER_ORACLE_ACCS_DEPLOY_FILE}" \
     "${WERCKER_ORACLE_ACCS_DEPLOY_REST_URL}/${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}"
 fi

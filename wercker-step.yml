@@ -31,3 +31,6 @@ properties:
   application_type:
     type: string
     required: true
+  subscription_type:
+    type: string
+    required: true
