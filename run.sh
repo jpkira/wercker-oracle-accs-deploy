@@ -59,9 +59,9 @@ getStorageTokenAndURLSet() {
   while IFS=':' read key value; do
           value=${value##+([[:space:]])}; value=${value%%+([[:space:]])}
           case "$key" in
-            X-Auth-Token) STORAGE_AUTH_TOKEN="$value"
+            X-Auth-Token) export STORAGE_AUTH_TOKEN="$value"
                   ;;
-            X-Storage-Url) STORAGE_URL="$value"
+            X-Storage-Url) export STORAGE_URL="$value"
                   ;;
           esac
   done< <(curl -sI -X GET -H "X-Storage-User: Storage-${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}:${WERCKER_ORACLE_ACCS_DEPLOY_OPC_USER}" -H "X-Storage-Pass: ${WERCKER_ORACLE_ACCS_DEPLOY_OPC_PASSWORD}" "https://${WERCKER_ORACLE_ACCS_DEPLOY_DOMAIN}.storage.oraclecloud.com/auth/v1.0")

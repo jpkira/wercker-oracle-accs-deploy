@@ -38,6 +38,10 @@ This will copy the binary (zip artifact) to the storage container cloud service 
 
 # joshholt/oracle-accs-deploy
 
+## 1.0.3
+
+- Export STORAGE AUTH and URL set
+
 ## 1.0.2
 
 - update to storage auth tokens
