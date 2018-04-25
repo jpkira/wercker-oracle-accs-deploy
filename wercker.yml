@@ -7,5 +7,5 @@ publish:
     steps:
         - install-packages:
             packages: ca-certificates
-         - internal/publish-step:
+        - internal/publish-step:
             owner: thebeebs
