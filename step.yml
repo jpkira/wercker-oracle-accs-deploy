@@ -1,7 +1,7 @@
 name: oracle-accs-deploy
 version: 1.0.10
-description: Deploy (Java, NodeJS, PHP, Ruby) application to Oracle Application Container Cloud Service
-keywords:
+summary: Deploy (Java, NodeJS, PHP, Ruby) application to Oracle Application Container Cloud Service
+tags:
   - oracle
   - application container cloud
   - deploy
@@ -10,27 +10,27 @@ keywords:
   - PHP
   - Ruby
 properties:
-  opc_user:
+  - name: opc_user
     type: string
     required: true
-  opc_password:
+  - name: opc_password:
     type: string
     required: true
-  rest_url:
+  - name: rest_url:
     type: string
     required: true
-  domain:
+  - name: domain:
     type: string
     required: true
-  application_name:
+  - name: application_name:
     type: string
     required: true
-  file:
+  - name: file:
     type: string
     required: true
-  application_type:
+  - name: application_type:
     type: string
     required: true
-  subscription_type:
+  - name: subscription_type:
     type: string
     required: true
