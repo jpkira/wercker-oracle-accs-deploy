@@ -3,3 +3,9 @@ build:
     steps:
         - shellcheck:
             files: run.sh
+publish:
+    steps:
+        - install-packages:
+            packages: ca-certificates
+         - internal/publish-step:
+            owner: thebeebs
