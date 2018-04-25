@@ -24,20 +24,24 @@ Wercker step to deploy application (Java, NodeJS, PHP, Python) to Oracle Applica
 	deploy-accs:
 	  steps:
 	    # Deploy to Oracle Application Container Cloud
-	    - joshholt/oracle-accs-deploy:
+	    - thebeebs/oracle-accs-deploy:
 	        opc_user: $OPC_USERNAME
 	        opc_password: $OPC_PASSWORD
 	        rest_url: $REST_URL
 	        domain: $IDENTITY_DOMAIN
 	        application_name: springboot-accs-demo
-			application_type: java
+		application_type: java
 	        file: springbootdemo-0.0.1.zip
 	        subscription_type: Hourly
 
 
 This will copy the binary (zip artifact) to the storage container cloud service than deploy to application container cloud service.
 
-# joshholt/oracle-accs-deploy
+# thebeebs/oracle-accs-deploy
+
+## 1.0.10
+
+- Now looks for deployment.json file to deploy.
 
 ## 1.0.9
 
