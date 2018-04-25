@@ -13,24 +13,24 @@ properties:
   - name: opc_user
     type: string
     required: true
-  - name: opc_password:
+  - name: opc_password
     type: string
     required: true
-  - name: rest_url:
+  - name: rest_url
     type: string
     required: true
-  - name: domain:
+  - name: domain
     type: string
     required: true
-  - name: application_name:
+  - name: application_name
     type: string
     required: true
-  - name: file:
+  - name: file
     type: string
     required: true
-  - name: application_type:
+  - name: application_type
     type: string
     required: true
-  - name: subscription_type:
+  - name: subscription_type
     type: string
     required: true
